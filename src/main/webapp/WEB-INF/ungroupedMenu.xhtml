@@ -4,8 +4,8 @@
 
     <sb:menu widgetVar="SiberiaMenuWidget">
         <p:submenu id="sm_homepage" label="Menú" icon="pi pi-fw pi-home">
-            <p:menuitem id="mi_dashboard" rendered="#{SeguridadService.menuIsActive('mi_dashboard')}" value="Resultados"
-                        icon="pi pi-fw pi-chart-bar" outcome="/dashboard" />
+            <p:menuitem id="mi_dashboard" rendered="#{SeguridadService.menuIsActive('mi_dashboard')}" value="Almacén"
+                        icon="pi pi-fw pi-th-large" outcome="/dashboard" />
             <p:submenu id="sm_sistema" rendered="#{SeguridadService.menuIsActive('sm_sistema')}" label="Sistema"
                        icon="pi pi-fw pi-desktop">
                 <p:submenu id="sm_seguridad" rendered="#{SeguridadService.menuIsActive('sm_seguridad')}"

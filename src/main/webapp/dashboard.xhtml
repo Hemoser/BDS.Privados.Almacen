@@ -13,9 +13,9 @@
     </ui:define>
     <ui:define name="content">
         <p:growl id="growl" showDetail="true" showSummary="false"/>
-        <h:form id="frmResultados">     
+        <h:form id="frmAlmacen">     
             <div class="card">
-                <h4>Resultados</h4>
+                <h4>Almacén</h4>
                 <div class="ui-fluid p-formgrid p-grid">
 
                     <div class="p-field p-col-12 p-md-2">
@@ -112,8 +112,8 @@
                 <p:toolbar >
                     <p:toolbarGroup align="left">
                         <p:commandButton icon="fa-solid fa-magnifying-glass" value="Consultar" action="#{ResultadosView.consultar()}"
-                                         process="@form" update="growl frmResultados " styleClass="p-mr-1"/>
-                        <p:commandButton icon="fa-solid fa-eraser" value="Limpiar" action="#{ResultadosView.limpiar()}" process="@this" update="growl frmResultados " />
+                                         process="@form" update="growl frmAlmacen " styleClass="p-mr-1"/>
+                        <p:commandButton icon="fa-solid fa-eraser" value="Limpiar" action="#{ResultadosView.limpiar()}" process="@this" update="growl frmAlmacen " />
                     </p:toolbarGroup>
                 </p:toolbar>
             </div>
@@ -200,7 +200,7 @@
                             <p:commandButton value="ACEPTAR"
                                              action="#{ResultadosView.selectInstitucion()}"
                                              icon="fa fa-fw fa-check"
-                                             update="growl :frmResultados:txtInst" 
+                                             update="growl :frmAlmacen:txtInst" 
                                              oncomplete="PF('institucionDlg').hide()" 
                                              ajax="false"
                                              class="p-mr-2"/>

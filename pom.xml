@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.primefaces</groupId>
-    <artifactId>BDS.Privados.Resultados</artifactId>
+    <artifactId>BDS.Privados.Almacen</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
 
-    <name>BDS.Privados.Resultados</name>
+    <name>BDS.Privados.Almacen</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
