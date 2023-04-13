@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context path="/AlmacenPriv">
-  <Resource allowMultiQueries="true" auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" global="jdbc/bdspDS" maxActive="100" maxIdle="30" maxWait="10000" name="jdbc/bdspDS" password="server" type="javax.sql.DataSource" url="jdbc:mysql://desarrollo.hemoser-soporte.com:3306/bdsp_resultados?allowMultiQueries=true&amp;serverTimezone=America/Mexico_City&amp;zeroDateTimeBehavior=convertToNull" useSSL="true" username="server"/>
+  <Resource allowMultiQueries="true" auth="Container" driverClassName="com.mysql.cj.jdbc.Driver" global="jdbc/bdspDS" maxActive="100" maxIdle="30" maxWait="10000" name="jdbc/bdspDS" password="server" type="javax.sql.DataSource" url="jdbc:mysql://desarrollo.hemoser-soporte.com:3306/bdsp_almacen?allowMultiQueries=true&amp;serverTimezone=America/Mexico_City&amp;zeroDateTimeBehavior=convertToNull" useSSL="true" username="server"/>
 </Context>
