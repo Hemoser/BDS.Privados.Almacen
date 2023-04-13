@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+                xmlns:cmp="http://xmlns.jcp.org/jsf/composite/cmp" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="content">
+        <p:growl id="growl" showDetail="true" showSummary="false" />
+
+        <div class="card">
+            <h4>Perfil</h4>
+
+            <h:form id="frmPerfil">
+                <h:panelGroup layout="block" rendered="#{not empty PerfilView.editItem.perfilid}"
+                              styleClass="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12 p-md-3">
+                        <p:outputLabel value="Id" class="requerido" for="@next" />
+                        <p:inputText value="#{PerfilView.editItem.perfilid}" readonly="true" />
+                    </div>
+                </h:panelGroup>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12 p-md-3">
+                        <p:outputLabel value="Perfil" class="requerido" for="@next" />
+                        <p:inputText value="#{PerfilView.editItem.perfil}" class="normal" required="true" maxlength="80"
+                                     onblur="value = value.toUpperCase()" requiredMessage="Perfil es un campo requerido" />
+                        <p:tooltip for="@previous" value="Nombre del perfil" showEffect="clip" hideEffect="explode"
+                                   position="left" />
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field-checkbox p-col-3">
+                        <p:selectBooleanCheckbox value="#{PerfilView.editItem.activo}" itemLabel="Activo" />
+                    </div>
+                </div>
+
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-6">
+                        <p:dataTable var="item" value="#{PerfilView.perfilMenuItems}" reflow="true"
+                                     rowKey="#{item.menuid}">
+                            <p:column headerText="Menu">
+                                <h:outputText value="#{item.nombre}" />
+                            </p:column>
+
+                            <p:column headerText="Tipo">
+                                <h:outputText value="#{item.tipo}" />
+                            </p:column>
+
+                            <p:column headerText="Activo" styleClass="table-column-center">
+                                <p:selectBooleanCheckbox value="#{item.activo}" />
+                            </p:column>
+                        </p:dataTable>
+
+                    </div>
+                </div>
+
+                <cmp:toolbarSave action="#{PerfilView.saveAction()}" returnUrl="/sistema/perfiles/list" process="@form"
+                                 update="growl @form" />
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

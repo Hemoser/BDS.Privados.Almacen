@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:p="http://primefaces.org/ui"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+
+    <cc:interface>
+        <cc:attribute name="action" method-signature="void action()" />
+        <cc:attribute name="update" default="" />
+        <cc:attribute name="process" default="" />
+        <cc:attribute name="returnUrl" default="" />
+        <cc:attribute name="renderSave" default="true" />
+        <cc:attribute name="renderReturn" default="true" />
+    </cc:interface>
+
+    <p:toolbar id="tbSave" styleClass="p-mt-4">
+        <p:toolbarGroup align="right">
+            <p:commandButton icon="pi pi-save" styleClass="p-mr-1" value="Guardar" process="@this #{cc.attrs.process}"
+                             update="#{cc.attrs.update}" action="#{cc.attrs.action}" rendered="#{cc.attrs.renderSave}"/>
+            <p:button icon="pi pi-arrow-circle-left" styleClass="ui-button-secondary" value="Regresar"
+                      outcome="#{cc.attrs.returnUrl}"  rendered="#{cc.attrs.renderReturn}"/>
+        </p:toolbarGroup>
+    </p:toolbar>
+
+</html>

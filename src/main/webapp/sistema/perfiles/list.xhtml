@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+    xmlns:cmp="http://xmlns.jcp.org/jsf/composite/cmp">
+
+    <ui:define name="content">
+        <h:form id="frmPerfiles">
+            <p:growl id="growl" showDetail="true" showSummary="false" />
+            <div class="card">
+                <h4>Perfiles</h4>
+
+                <cmp:toolbarActions id="topToolbar" actionUrl="/sistema/perfiles/detail" paramName="ID"
+                    paramValue="#{PerfilView.selectedRow.perfilid}"
+                    itemActionsDisable="#{empty PerfilView.selectedRow}" />
+
+                <p:dataTable id="tbItems" var="item" value="#{PerfilView.rows}" selectionMode="single" reflow="true"
+                    selection="#{PerfilView.selectedRow}" rowKey="#{item.perfilid}" paginator="true" rows="10"
+                    paginatorPosition="bottom" styleClass="tbItems" emptyMessage="NO HAY REGISTROS PARA MOSTRAR">
+                    <p:column headerText="Id" width="50">
+                        <h:outputText value="#{item.perfilid}" />
+                    </p:column>
+                    <p:column headerText="Perfil">
+                        <h:outputText value="#{item.perfil}" />
+                    </p:column>
+                    <p:column headerText="Activo" style="text-align: center">
+                        <h:panelGroup layout="block" rendered="#{item.activo}">
+                            <i class="pi pi-check" style="font-size: 1rem;"></i>
+                        </h:panelGroup>
+                    </p:column>
+                    <p:ajax event="rowSelect" update=":frmPerfiles:topToolbar:tbActions" />
+                    <p:ajax event="rowUnselect" listener="#{PerfilView.onRowUnselected}"
+                        update=":frmPerfiles:topToolbar:tbActions" />
+                </p:dataTable>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <link rel="icon" type="image/x-icon" href="#{resource['hemoser-layout/images/favicon_BDS.ico']}"/>
+        </f:facet>
+        <title>Elismart SA. de CV.</title>
+    </h:head>
+    <h:body styleClass="login-body">
+        <h:form >
+            <p:growl id="growl" sticky="true" showDetail="true" life="3000" />    
+            <div id="login-wrapper">
+                <p:graphicImage name="images/logo.png" library="hemoser-layout"  />
+                <div id="login-container">
+                    <div class="card">
+                        <i class="fa fa-user-circle-o fa-5x" aria-hidden="true"></i>
+                        <br></br>                        
+                        <hr></hr> 
+                        <span class="title">Su sesión ha terminado.</span>
+                        <p:link  outcome="/login" ><i class="fa  fa-sign-in"></i><span> Inicio</span></p:link>
+                    </div>
+                    <h:outputText value="#{logoutView.fecha}">
+                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                    </h:outputText>
+                </div>                        
+            </div>
+        </h:form>
+        <h:outputStylesheet name="css/layout.css" library="omega-layout" />
+    </h:body>
+
+</html>

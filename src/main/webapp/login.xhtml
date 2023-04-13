@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <link rel="icon" type="image/x-icon" href="#{resource['hemoser-layout/images/favicon_BDS.ico']}"/>
+        </f:facet>
+        <title>Resultados - Elismart SA. de CV.</title>
+        <style type="text/css">
+            .opacidad {
+                transition:2s;
+                opacity: .25;
+                background-color: rgb(0, 0, 0);
+                height: 2em;
+                width: 450px;
+                position: absolute;
+                top: 10px;
+                color: #fff;
+                text-align: center;
+                padding-top: 1em;
+            }
+            .opacidad:hover {
+                transition:1.5s;
+                opacity: .95;
+                background-color: rgb(0, 0, 0);
+                height: 2em;
+                width: 450px;
+                position: absolute;
+                top: 10px; 
+                color: #fff;
+                text-align: center;
+                padding-top: 1em;
+            }
+            .login-body {
+                box-sizing: border-box;
+                background-repeat: no-repeat;
+                background-attachment: fixed;  
+                background-image: url("#{resource['hemoser-layout:images/bloodtest.png']}");
+                background-size: cover;
+            }
+        </style>
+    </h:head>
+    <h:body styleClass="login-body">
+        <p:growl id="growl" showDetail="true" showSummary="false"/>
+        <p:remoteCommand autoRun="true" action="#{loginView.tryLogInExternal()}" immediate="true" update="growl"/>
+        <h:form >
+            <div id="login-wrapper">
+                <div id="login-container"  style="height:auto; border-radius: 20px; position: static; width: auto !important;" >
+                    <div>
+                        <!-- <p:graphicImage name="images/app_logo_SII.png" library="hemoser-layout" style="width: 100%;"/>--> <!--SII LOGO-->
+                        <p:graphicImage name="images/Hospital_Juarez_Logo.png" library="hemoser-layout" style="width: 50%;"/> <!--LOGO IMSS-->
+                    </div>
+                    <span class="title" style="font:sans-serif; font-size:16px;">RESULTADOS DE BANCO DE SANGRE</span>
+                    <h4><p:outputLabel value="HOSPITAL JUÁREZ DE MÉXICO" style="font-size:16px;"/></h4>
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12">
+                            <p:inputText id="user" placeholder="Usuario" value="#{loginView.username}" required="true" label="Usuario" requiredMessage="El usuario es requerido"  />                            
+                        </div>
+                        <div class="ui-g-12">
+                            <p:password id="password" placeholder="Contraseña" value="#{loginView.password}" required="true" label="Contraseña" feedback="false" requiredMessage="La contraseña es requerida"/>                            
+                        </div>
+
+                        <div class="ui-g-12">
+                            <p:commandButton value="ACCEDER" ajax="true">
+                                <p:ajax process="@this user password" listener="#{loginView.login()}" update="growl" />
+                            </p:commandButton>
+                        </div>
+                        <div class="bds-version" style="width: 100%; text-align: right; padding-top: 10px; ">
+                            Versión: #{initParam['SII.Version']}                       
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+        <h:outputStylesheet name="css/layout.css" library="omega-layout" />
+
+    </h:body>
+
+</html>

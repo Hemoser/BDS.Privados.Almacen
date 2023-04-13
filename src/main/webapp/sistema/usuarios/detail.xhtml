@@ -1,0 +1,91 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+                xmlns:cmp="http://xmlns.jcp.org/jsf/composite/cmp" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="content">
+        <p:growl id="growl" showDetail="true" showSummary="false" />
+
+        <div class="card">
+            <h4>Usuario</h4>
+
+            <h:form id="frmUsuario">
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12 p-md-3">
+                        <p:outputLabel value="Nombre" class="requerido" for="@next" />
+                        <p:inputText value="#{UsuarioView.editItem.fcnombre}" class="normal" required="true"
+                                     maxlength="80" onblur="value = value.toUpperCase()"
+                                     requiredMessage="Nombre es un campo requerido" />
+                        <p:tooltip for="@previous" value="Nombre de pila del usuario" showEffect="clip"
+                                   hideEffect="explode" position="left" />
+                    </div>
+                    <div class="p-field p-col-12 p-md-3">
+                        <p:outputLabel value="Paterno" class="requerido" for="@next" />
+                        <p:inputText value="#{UsuarioView.editItem.fcpaterno}" class="normal" required="true"
+                                     maxlength="20" onblur="value = value.toUpperCase()"
+                                     requiredMessage="Apellido paterno es un campo requerido" />
+                        <p:tooltip for="@previous" value="Primer apellido del usuario" showEffect="clip"
+                                   hideEffect="explode" position="top" showDelay="2000" />
+                    </div>
+                    <div class="p-field p-col-12 p-md-3">
+                        <p:outputLabel value="Materno" for="@next" />
+                        <p:inputText value="#{UsuarioView.editItem.fcmaterno}" class="normal" maxlength="20"
+                                     required="false" onblur="value = value.toUpperCase()" />
+                        <p:tooltip for="@previous" value="Segundo apellido del usuario" showEffect="clip"
+                                   hideEffect="explode" position="top" showDelay="2000" />
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12 p-md-3">
+                        <p:outputLabel value="Perfil" class="requerido" for="@next" />
+                        <p:selectOneMenu value="#{UsuarioView.editItem.perfilid}" required="true"
+                                         requiredMessage="Perfil es un campo requerido" autoWidth="false">
+                            <f:selectItem itemLabel="Selecciona una opción" itemValue="" noSelectionOption="true" />
+                            <f:selectItems value="#{CatalogosService.perfiles}" />
+                        </p:selectOneMenu>
+                        <p:tooltip for="@previous" value="Selección de perfil" showEffect="clip" hideEffect="explode"
+                                   position="top" showDelay="2000" />
+                    </div>
+
+                </div>
+
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12 p-md-3">
+                        <p:outputLabel value="Usuario" class="requerido" for="@next" />
+                        <p:inputText value="#{UsuarioView.editItem.fcusername}" class="normal" title="Nombre de usuario"
+                                     maxlength="16" required="true" requiredMessage="Usuario es un campo requerido"
+                                     disabled="#{UsuarioView.accion eq 'EDIT'? 'true':'false'}"
+                                     onblur="value = value.toUpperCase()" />
+                        <p:tooltip for="@previous"
+                                   value="Alias de usuario para sistema, este campo recibe mayúsculas y minúsculas"
+                                   showEffect="clip" hideEffect="explode" position="top" showDelay="2000" />
+                    </div>
+                    <h:panelGroup layout="block" rendered="#{UsuarioView.accion eq 'EDIT'? 'false':'true'}">
+                        <div class="p-field p-col-12 p-md-3">
+                            <p:outputLabel value="Contraseña" for="@next" />
+                            <p:password value="#{UsuarioView.editItem.fcpassword}"  toggleMask="true" maxlength="16"
+                                        required="true" requiredMessage="La contraseña es un campo requerido"
+                                        styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all normal ui-state-filled"/>
+                            <p:tooltip for="@previous"
+                                       value="Contraseña de acceso, este campo recibe mayúsculas y minúsculas" showEffect="clip"
+                                       hideEffect="explode" position="top" showDelay="2000" />
+                        </div>
+                    </h:panelGroup>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field-checkbox p-col-12 p-md-1">
+                        <p:selectBooleanCheckbox value="#{UsuarioView.editItem.fbactivo}" itemLabel="Activo" />
+                    </div>
+                    <div class="p-field-checkbox p-col-12 p-md-1">
+                        <p:selectBooleanCheckbox value="#{UsuarioView.editItem.fbconfidenciales}" itemLabel="Confidenciales" />
+                        <p:tooltip for="@previous"
+                                   value="Permite ver resultados confidenciales" showEffect="clip"
+                                   hideEffect="clip" position="top" showDelay="500" />
+                    </div>
+                </div>
+
+                <cmp:toolbarSave action="#{UsuarioView.saveAction()}" returnUrl="/sistema/usuarios/list" process="@form"
+                                 update="growl @form" />
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

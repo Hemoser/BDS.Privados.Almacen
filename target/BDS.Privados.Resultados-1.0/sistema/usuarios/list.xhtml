@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/template.xhtml"
+                xmlns:cmp="http://xmlns.jcp.org/jsf/composite/cmp">
+    <ui:define name="head">        
+        <style type="text/css">
+            .ui-datatable .ui-column-filter {
+                display: none;
+            }
+
+            body .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="frmUsuarios">
+            <p:growl id="growl" showDetail="true" showSummary="false" />
+            <div class="p-grid table-demo">
+                <div class="p-col-12">
+                    <div class="card">
+                        <h4>Usuarios</h4>
+
+                        <cmp:toolbarActions id="topToolbar" actionUrl="/sistema/usuarios/detail" paramName="ID"
+                                            paramValue="#{UsuarioView.selectedRow.id}"
+                                            itemActionsDisable="#{empty UsuarioView.selectedRow}" />
+
+                        <p:dataTable id="tbItems" widgetVar="tbItems" var="item" value="#{UsuarioView.rows}" selectionMode="single"
+                                     reflow="true" selection="#{UsuarioView.selectedRow}" rowKey="#{item.id}" paginator="true" 
+                                     rows="10" paginatorPosition="bottom" 
+                                     emptyMessage="NO HAY REGISTROS PARA MOSTRAR">
+
+                            <f:facet name="header">
+                                <span class="ui-input-icon-left">
+                                    <i class="pi pi-search"/>
+                                    <p:inputText id="globalFilter" onkeyup="PF('tbItems').filter()" placeholder="Búsqueda"/>
+                                </span>
+                            </f:facet>
+
+                            <p:column headerText="Usuario" sortBy="#{item.username}"  filterBy="#{item.username}" >
+                                <h:outputText value="#{item.username}" />
+                            </p:column>
+                            <p:column headerText="Nombre" sortBy="#{item.username}" filterBy="#{item.nombre}">
+                                <h:outputText value="#{item.nombre}"/>
+                            </p:column>
+                            <p:column headerText="Perfil">
+                                <h:outputText value="#{item.perfil}" />
+                            </p:column>
+                            <p:column headerText="Activo" styleClass="table-column-center">
+                                <h:panelGroup layout="block" rendered="#{item.activo}">
+                                    <i class="pi pi-check" style="font-size: 1rem"></i>
+                                </h:panelGroup>
+                                <h:panelGroup layout="block" rendered="#{!item.activo}">
+                                    <i class="pi pi-times" style="font-size: 1rem"></i>
+                                </h:panelGroup>
+                            </p:column>
+
+                            <p:ajax event="rowSelect" update=":frmUsuarios:topToolbar:tbActions" />
+                            <p:ajax event="rowUnselect" listener="#{UsuarioView.onRowUnselected}"
+                                    update=":frmUsuarios:topToolbar:tbActions" />
+                        </p:dataTable>
+
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

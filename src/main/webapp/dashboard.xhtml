@@ -1,0 +1,300 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" 
+                template="/WEB-INF/template.xhtml"
+                xmlns:cmp="http://xmlns.jcp.org/jsf/composite/cmp"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+    <ui:define name="head">
+        <style type="text/css">
+
+        </style>
+    </ui:define>
+    <ui:define name="content">
+        <p:growl id="growl" showDetail="true" showSummary="false"/>
+        <h:form id="frmResultados">     
+            <div class="card">
+                <h4>Resultados</h4>
+                <div class="ui-fluid p-formgrid p-grid">
+
+                    <div class="p-field p-col-12 p-md-2">
+                        <p:outputLabel for="@next" value="Nombre" />
+                        <p:inputText value="#{ResultadosView.filtros.nombre}" maxlength="255"/>
+                    </div>
+
+                    <div class="p-field p-col-12 p-md-2">
+                        <p:outputLabel for="@next" value="Apellido Paterno" />
+                        <p:inputText value="#{ResultadosView.filtros.paterno}" maxlength="255"/>
+                    </div>
+
+                    <div class="p-field p-col-12 p-md-2">
+                        <p:outputLabel for="@next" value="Apellido Materno" />
+                        <p:inputText value="#{ResultadosView.filtros.materno}" maxlength="255"/>
+                    </div>                               
+
+                    <div class="p-field p-col-12 p-md-3">
+                        <p:outputLabel for="@next" value="Institución" />
+                        <div class="ui-inputgroup">
+                            <p:inputText id="txtInst"    
+                                         value="#{ResultadosView.institucionLabel}"
+                                         style="text-transform: uppercase;"
+                                         onclick="PF('institucionDlg').show()"/>
+
+                            <p:commandButton                                             
+                                icon="fa fa-fw fa-search"
+                                class="ui-search-pnl" 
+                                process="@this"
+                                oncomplete="PF('institucionDlg').show()" /> 
+                            <p:tooltip for="@previous" value="Buscar Institución" />
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12 p-md-2">
+                        <p:outputLabel for="@next" value="Análisis" />
+                        <p:inputText value="#{ResultadosView.filtros.analisis}" maxlength="255"/>
+                    </div>
+
+                    <div class="p-field p-col-12 p-md-2">
+                        <p:outputLabel for="@next" value="Estatus" />
+                        <p:selectOneMenu value="#{ResultadosView.filtros.status}" autoWidth="false">
+                            <f:selectItem itemLabel="Seleccione uno..." itemValue="#{null}"/>
+                            <f:selectItem itemLabel="Solicitada" itemValue="#{0}"/>
+                            <f:selectItem itemLabel="Con Resultado" itemValue="#{1}"/>
+                            <f:selectItem itemLabel="Validado" itemValue="#{2}"/>
+
+                        </p:selectOneMenu>
+                    </div>
+
+                    <div class="p-field p-col-12 p-md-2">
+                        <p:outputLabel for="@next" value="Sevicio" />
+                        <p:selectOneMenu value="#{ResultadosView.filtros.servicio}" autoWidth="false" filter="true" filterMatchMode="contains">
+                            <f:selectItem itemLabel="Seleccione uno..." itemValue="#{null}"/>
+                            <f:selectItems value="#{ResultadosView.itemsServicios}" var="is" itemLabel="#{is.fcareaservicionombre}" itemValue="#{is.fcareaservicionombre}" />
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <p:fieldset legend="Solicitud" class="p-field p-col-12 p-md-2">
+                        <div class="p-field p-col-12 p-md-11">
+                            <p:outputLabel for="@next" value="Fecha Desde" />
+                            <p:datePicker value="#{ResultadosView.filtros.fod}" monthNavigator="true" yearNavigator="true"
+                                          showIcon="true" 
+                                          pattern="dd/MM/yyyy" />
+
+
+                        </div>                 
+                        <div class="p-field p-col-12 p-md-11">
+                            <p:outputLabel for="@next" value="Fecha Hasta" />
+                            <p:datePicker value="#{ResultadosView.filtros.foh}" monthNavigator="true" yearNavigator="true"
+                                          showIcon="true" 
+                                          pattern="dd/MM/yyyy" />
+                        </div>
+                    </p:fieldset>
+                    <p:fieldset legend="Resultados"  class="p-field p-col-12 p-md-2">
+
+                        <div class="p-field p-col-12 p-md-11">
+                            <p:outputLabel for="@next" value="Fecha Desde" />
+                            <p:datePicker value="#{ResultadosView.filtros.frd}" monthNavigator="true" yearNavigator="true"
+                                          showIcon="true" 
+                                          pattern="dd/MM/yyyy" />
+
+                        </div>                 
+                        <div class="p-field p-col-12 p-md-11">
+                            <p:outputLabel for="@next" value="Fecha Hasta" />
+                            <p:datePicker value="#{ResultadosView.filtros.frh}" monthNavigator="true" yearNavigator="true"
+                                          showIcon="true" 
+                                          pattern="dd/MM/yyyy" />
+                        </div>
+                    </p:fieldset>
+                </div>
+                <p:toolbar >
+                    <p:toolbarGroup align="left">
+                        <p:commandButton icon="fa-solid fa-magnifying-glass" value="Consultar" action="#{ResultadosView.consultar()}"
+                                         process="@form" update="growl frmResultados " styleClass="p-mr-1"/>
+                        <p:commandButton icon="fa-solid fa-eraser" value="Limpiar" action="#{ResultadosView.limpiar()}" process="@this" update="growl frmResultados " />
+                    </p:toolbarGroup>
+                </p:toolbar>
+            </div>
+            <div class="card">                       
+                <p:dataTable id="tbItems" value="#{ResultadosView.items}" var="item"   paginator="true" rows="10" paginatorPosition="bottom"
+                             emptyMessage="NO HAY REGISTROS PARA MOSTRAR"  widgetVar="tbItems" >
+
+                    <p:column headerText="Tipo" width="70" >
+                        <h:outputText value="#{item.tipo eq 'P'?'PACIENTE':'DONADOR'} " />
+                    </p:column>
+
+                    <p:column headerText="Nombre" width="200">
+                        <h:outputText value="#{item.nombre}" />
+                    </p:column>
+
+                    <p:column headerText="Fecha Orden">
+                        <h:outputText value="#{item.fechaOrden}"   >
+                            <f:convertDateTime pattern="dd-MM-yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Análisis">
+                        <h:outputText value="#{item.analisis}" />
+                    </p:column>
+
+                    <p:column headerText="Resultado">
+                        <h:outputText value="#{item.resultado}" />
+                    </p:column>
+
+                    <p:column headerText="Usuario Valida" >
+                        <h:outputText value="#{item.usuarioValida}" />
+                    </p:column>
+
+                    <p:column headerText="Matrícula" >
+                        <h:outputText value="#{item.matriculaValida}" />
+                    </p:column>
+
+                    <p:column headerText="Fecha Validación">
+                        <h:outputText value="#{item.fechaValida}"   >
+                            <f:convertDateTime pattern="dd-MM-yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Clave">
+                        <h:outputText value="#{item.donadorPacienteId}" />
+                    </p:column>
+                    <p:tooltip value="Clave del donador o del paciente"/>
+
+                    <p:column headerText="Estatus">
+                        <h:outputText value="#{item.status eq '0'?'SOLICITADO': item.status eq '1'?'CON RESULTADO':'VALIDADO'}" />
+                    </p:column>
+                </p:dataTable>
+                <p:toolbar >
+                    <p:toolbarGroup align="left">
+                        <p:commandButton icon="fa-solid fa-print" value="Imprimir" 
+                                         onclick="PF('PrintDialog').show()" styleClass="ui-button-secondary"/>
+                    </p:toolbarGroup>
+                </p:toolbar>
+            </div>
+        </h:form>   
+        <!-- DIALOGO INSTITUCIÓN -->
+        <p:dialog header="Instituciones" widgetVar="institucionDlg" modal="true" showEffect="fade" hideEffect="fade" 
+                  resizable="false" responsive="true" draggable="false" width="600">
+            <h:form >
+                <p:dataTable id="tbItemsDiag"
+                             var="itemInst"
+                             value="#{ResultadosView.itemsInstituciones}"
+                             selectionMode="single"
+                             reflow="true"
+                             rowKey="#{itemInst.fncveinstitucion}"
+                             selection="#{ResultadosView.itemInstitucion}"
+                             paginator="true"
+                             rows="10"
+                             paginatorPosition="bottom"
+                             styleClass="tbItems"
+                             emptyMessage="NO HAY REGISTROS PARA MOSTRAR">
+
+                    <p:column class="text-center"
+                              filterMatchMode="contains" filterBy="#{itemInst.fcinstitucion}">
+                        <h:outputText value="#{itemInst.fcinstitucion}"/>
+                    </p:column>
+                    <f:facet name="footer">
+                        <div align="right" >                        
+                            <p:commandButton value="ACEPTAR"
+                                             action="#{ResultadosView.selectInstitucion()}"
+                                             icon="fa fa-fw fa-check"
+                                             update="growl :frmResultados:txtInst" 
+                                             oncomplete="PF('institucionDlg').hide()" 
+                                             ajax="false"
+                                             class="p-mr-2"/>
+                            <p:commandButton value="CERRAR"
+                                             icon="fa fa-fw fa-remove"
+                                             oncomplete="PF('institucionDlg').hide()" />
+                        </div>
+                    </f:facet>
+                </p:dataTable>  
+            </h:form> 
+        </p:dialog>
+        <!-- DIALOGO IMPRESIÓN -->
+        <p:dialog header="Imprimir Resultados" widgetVar="PrintDialog" modal="true" responsive="true" resizable="false" draggable="false" closable="false" width="300" height="auto" styleClass="print-dialog">            
+            <h:form id="frmPrnt" >
+                <div class="ui-fluid p-formgrid p-grid"> 
+                    <div class="p-field p-col-12">
+                        <p:outputLabel for="@next" value="Institución" />
+                        <div class="ui-inputgroup">
+                            <p:inputText id="instPrt"                                         
+                                         value="#{ResultadosView.rptInstitucionLabel}"
+                                         style="text-transform: uppercase;"
+                                         onclick="PF('institucionPrtDlg').show()"/>
+
+                            <p:commandButton id="btnInstitucion"
+                                             icon="fa fa-fw fa-search"
+                                             class="ui-search-pnl" 
+                                             process="@this"
+                                             oncomplete="PF('institucionPrtDlg').show()"
+                                             ajax="true" /> 
+                            <p:tooltip for="@previous" value="Buscar Institución" />
+                        </div>
+                    </div>
+                    <div class="p-field p-col-12">
+                        <p:outputLabel for="@next" value="Estatus" />
+                        <p:selectOneMenu value="#{ResultadosView.rptStatus}" autoWidth="false">
+                            <f:selectItem itemLabel="Seleccione uno..." itemValue="#{null}"/>
+                            <f:selectItem itemLabel="Solicitada" itemValue="#{0}"/>
+                            <f:selectItem itemLabel="Con Resultado" itemValue="#{1}"/>
+                            <f:selectItem itemLabel="Validado" itemValue="#{2}"/>
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="p-field p-col-12">
+                        <p:outputLabel for="@next" value="Clave Donador / Paciente" />
+                        <p:inputNumber value="#{ResultadosView.rptIdPaciente}"  thousandSeparator="" decimalPlaces="0" minValue="0" />
+                    </div>
+
+                </div>
+                <br></br>
+                <div style="text-align: right">
+                    <p:commandButton action="#{ResultadosView.imprimirResultados()}"   icon="fas fa-print" onclick="form.target = '_blank';" value="Imprimir"
+                                     styleClass="ui-button-secondary p-mr-2"  ajax="false" />
+                    <p:commandButton type="button" icon="fa-solid fa-times" value="Cerrar" onclick="PF('PrintDialog').hide()" />
+                </div>
+            </h:form>
+        </p:dialog>
+        <!-- DIALOGO INSTITUCIÓN IMPRESIÓN -->
+        <p:dialog header="Instituciones" widgetVar="institucionPrtDlg" modal="true" showEffect="fade" hideEffect="fade" 
+                  resizable="false" responsive="true" draggable="false" width="600">
+            <h:form >
+                <p:dataTable id="tbItemsPrtDiag"
+                             var="itemI"
+                             value="#{ResultadosView.itemsInstituciones}"
+                             selectionMode="single"
+                             reflow="true"
+                             rowKey="#{itemI.fncveinstitucion}"
+                             selection="#{ResultadosView.itemInstitucion}"
+                             paginator="true"
+                             rows="10"
+                             paginatorPosition="bottom"
+                             styleClass="tbItems"
+                             emptyMessage="NO HAY REGISTROS PARA MOSTRAR">
+
+                    <p:column class="text-center"
+                              filterMatchMode="contains" filterBy="#{itemI.fcinstitucion}">
+                        <h:outputText value="#{itemI.fcinstitucion}"/>
+                    </p:column>
+                    <f:facet name="footer">
+                        <div align="right" >                        
+                            <p:commandButton value="ACEPTAR"
+                                             action="#{ResultadosView.selectPrtInstitucion()}"
+                                             icon="fa fa-fw fa-check"
+                                             update="growl :frmPrnt:instPrt" 
+                                             oncomplete="PF('institucionPrtDlg').hide()" 
+                                             ajax="true"
+                                             class="p-mr-2"/>
+                            <p:commandButton value="CERRAR"
+                                             icon="fa fa-fw fa-remove"
+                                             oncomplete="PF('institucionPrtDlg').hide()" />
+                        </div>
+                    </f:facet>
+                </p:dataTable>  
+            </h:form> 
+        </p:dialog>
+    </ui:define>
+
+
+</ui:composition>
