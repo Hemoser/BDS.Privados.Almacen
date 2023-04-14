@@ -37,14 +37,15 @@ public class ReporteView implements Serializable {
     }
 
     public String imprimeResultados() {
-        try {
+      /*  try {
             Integer institucionId = Util.tryParseInteger(Util.getParam("INSTID"));
             Integer status = Util.tryParseInteger(Util.getParam("STATUS"));
-            Integer donadorPacienteId = Util.tryParseInteger(Util.getParam("DPACID"));
+           Integer donadorPacienteId = Util.tryParseInteger(Util.getParam("DPACID"));
             return reportesController.imprimeResultados(institucionId, status, donadorPacienteId);
         } catch (Exception ex) {
             return ex.getMessage();
-        }
+        }*/
+      return "";
     }
 
     //<editor-fold defaultstate="collapsed" desc="Properties">
