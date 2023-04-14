@@ -59,13 +59,10 @@ public class ReportTestController extends BaseService implements Serializable {
         facesContext.responseComplete();
     }
 
-    public String imprimeResultados(Integer institucionId, Integer status, Integer donadorPacienteId) throws Exception {
+    public String imprimeBolsasAlmacen(Integer componenteId) throws Exception {
         Map<String, Object> pars = new HashMap<>();
-        pars.put("institucionId", institucionId);
-        pars.put("status", status);
-        pars.put("donadorPacienteId", donadorPacienteId);
-        pars.put("userId", Util.getUserId());
-        printReportToBrowser(pars, "ImprimeResultados");
+        pars.put("componenteId", componenteId);
+        printReportToBrowser(pars, "ImprimeBolsasAlmacen");
         return null;
     }
 

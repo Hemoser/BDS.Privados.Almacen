@@ -19,152 +19,92 @@
                 <div class="ui-fluid p-formgrid p-grid">
 
                     <div class="p-field p-col-12 p-md-2">
+                        <p:outputLabel for="@next" value="Clave Unidad" />
+                        <p:inputNumber value="#{AlmacenView.filtros.unidadId}" decimalPlaces="0" thousandSeparator="" />
+                    </div>
+                    <div class="p-field p-col-12 p-md-2">
                         <p:outputLabel for="@next" value="Nombre" />
-                        <p:inputText value="#{ResultadosView.filtros.nombre}" maxlength="255"/>
+                        <p:inputText value="#{AlmacenView.filtros.nombre}" maxlength="255" placeholder="Nombre o apellidos del donador"/>
                     </div>
-
                     <div class="p-field p-col-12 p-md-2">
-                        <p:outputLabel for="@next" value="Apellido Paterno" />
-                        <p:inputText value="#{ResultadosView.filtros.paterno}" maxlength="255"/>
-                    </div>
+                        <p:outputLabel for="@next" value="Fecha Caducidad" />
+                        <p:datePicker value="#{AlmacenView.filtros.fechaCaducidad}" monthNavigator="true" yearNavigator="true"
+                                      showIcon="true" 
+                                      pattern="dd/MM/yyyy" />
 
+                        <p:tooltip for="@previous" value="Muestra bolsas con fecha de caducidad igual o menor a la ingresada." />
+                    </div>    
                     <div class="p-field p-col-12 p-md-2">
-                        <p:outputLabel for="@next" value="Apellido Materno" />
-                        <p:inputText value="#{ResultadosView.filtros.materno}" maxlength="255"/>
-                    </div>                               
-
-                    <div class="p-field p-col-12 p-md-3">
-                        <p:outputLabel for="@next" value="Institución" />
-                        <div class="ui-inputgroup">
-                            <p:inputText id="txtInst"    
-                                         value="#{ResultadosView.institucionLabel}"
-                                         style="text-transform: uppercase;"
-                                         onclick="PF('institucionDlg').show()"/>
-
-                            <p:commandButton                                             
-                                icon="fa fa-fw fa-search"
-                                class="ui-search-pnl" 
-                                process="@this"
-                                oncomplete="PF('institucionDlg').show()" /> 
-                            <p:tooltip for="@previous" value="Buscar Institución" />
-                        </div>
-                    </div>
-                </div>
-                <div class="ui-fluid p-formgrid p-grid">
-                    <div class="p-field p-col-12 p-md-2">
-                        <p:outputLabel for="@next" value="Análisis" />
-                        <p:inputText value="#{ResultadosView.filtros.analisis}" maxlength="255"/>
-                    </div>
-
-                    <div class="p-field p-col-12 p-md-2">
-                        <p:outputLabel for="@next" value="Estatus" />
-                        <p:selectOneMenu value="#{ResultadosView.filtros.status}" autoWidth="false">
+                        <p:outputLabel for="@next" value="Componente" />
+                        <p:selectOneMenu value="#{AlmacenView.filtros.componente}" autoWidth="false"
+                                         filter="true" filterMatchMode="contains">
                             <f:selectItem itemLabel="Seleccione uno..." itemValue="#{null}"/>
-                            <f:selectItem itemLabel="Solicitada" itemValue="#{0}"/>
-                            <f:selectItem itemLabel="Con Resultado" itemValue="#{1}"/>
-                            <f:selectItem itemLabel="Validado" itemValue="#{2}"/>
-
+                            <f:selectItems value="#{AlmacenView.itemsComp}" var="ic" itemLabel="#{ic.fraccion}" itemValue="#{ic.fraccion}"/>
                         </p:selectOneMenu>
                     </div>
-
-                    <div class="p-field p-col-12 p-md-2">
-                        <p:outputLabel for="@next" value="Sevicio" />
-                        <p:selectOneMenu value="#{ResultadosView.filtros.servicio}" autoWidth="false" filter="true" filterMatchMode="contains">
-                            <f:selectItem itemLabel="Seleccione uno..." itemValue="#{null}"/>
-                            <f:selectItems value="#{ResultadosView.itemsServicios}" var="is" itemLabel="#{is.fcareaservicionombre}" itemValue="#{is.fcareaservicionombre}" />
-                        </p:selectOneMenu>
-                    </div>
-                </div>
-                <div class="ui-fluid p-formgrid p-grid">
-                    <p:fieldset legend="Solicitud" class="p-field p-col-12 p-md-2">
-                        <div class="p-field p-col-12 p-md-11">
-                            <p:outputLabel for="@next" value="Fecha Desde" />
-                            <p:datePicker value="#{ResultadosView.filtros.fod}" monthNavigator="true" yearNavigator="true"
-                                          showIcon="true" 
-                                          pattern="dd/MM/yyyy" />
-
-
-                        </div>                 
-                        <div class="p-field p-col-12 p-md-11">
-                            <p:outputLabel for="@next" value="Fecha Hasta" />
-                            <p:datePicker value="#{ResultadosView.filtros.foh}" monthNavigator="true" yearNavigator="true"
-                                          showIcon="true" 
-                                          pattern="dd/MM/yyyy" />
-                        </div>
-                    </p:fieldset>
-                    <p:fieldset legend="Resultados"  class="p-field p-col-12 p-md-2">
-
-                        <div class="p-field p-col-12 p-md-11">
-                            <p:outputLabel for="@next" value="Fecha Desde" />
-                            <p:datePicker value="#{ResultadosView.filtros.frd}" monthNavigator="true" yearNavigator="true"
-                                          showIcon="true" 
-                                          pattern="dd/MM/yyyy" />
-
-                        </div>                 
-                        <div class="p-field p-col-12 p-md-11">
-                            <p:outputLabel for="@next" value="Fecha Hasta" />
-                            <p:datePicker value="#{ResultadosView.filtros.frh}" monthNavigator="true" yearNavigator="true"
-                                          showIcon="true" 
-                                          pattern="dd/MM/yyyy" />
-                        </div>
-                    </p:fieldset>
                 </div>
                 <p:toolbar >
                     <p:toolbarGroup align="left">
-                        <p:commandButton icon="fa-solid fa-magnifying-glass" value="Consultar" action="#{ResultadosView.consultar()}"
+                        <p:commandButton icon="fa-solid fa-magnifying-glass" value="Consultar" action="#{AlmacenView.consultar()}"
                                          process="@form" update="growl frmAlmacen " styleClass="p-mr-1"/>
-                        <p:commandButton icon="fa-solid fa-eraser" value="Limpiar" action="#{ResultadosView.limpiar()}" process="@this" update="growl frmAlmacen " />
+                        <p:commandButton icon="fa-solid fa-eraser" value="Limpiar" action="#{AlmacenView.limpiar()}" process="@this" update="growl frmAlmacen " />
                     </p:toolbarGroup>
                 </p:toolbar>
             </div>
             <div class="card">                       
-                <p:dataTable id="tbItems" value="#{ResultadosView.items}" var="item"   paginator="true" rows="10" paginatorPosition="bottom"
+                <p:dataTable id="tbItems" value="#{AlmacenView.items}" var="item"   paginator="true" rows="10" paginatorPosition="bottom"
                              emptyMessage="NO HAY REGISTROS PARA MOSTRAR"  widgetVar="tbItems" >
 
-                    <p:column headerText="Tipo" width="70" >
-                        <h:outputText value="#{item.tipo eq 'P'?'PACIENTE':'DONADOR'} " />
+                    <p:column headerText="Unidad">
+                        <h:outputText value="#{item.unidad}" />
                     </p:column>
 
-                    <p:column headerText="Nombre" width="200">
-                        <h:outputText value="#{item.nombre}" />
+                    <p:column headerText="Componente">
+                        <h:outputText value="#{item.componente}" />
                     </p:column>
 
-                    <p:column headerText="Fecha Orden">
-                        <h:outputText value="#{item.fechaOrden}"   >
+                    <p:column headerText="Fecha Extracción" width="120" style="text-align: center">
+                        <h:outputText value="#{item.fechaExtraccion}">
                             <f:convertDateTime pattern="dd-MM-yyyy" />
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="Análisis">
-                        <h:outputText value="#{item.analisis}" />
-                    </p:column>
-
-                    <p:column headerText="Resultado">
-                        <h:outputText value="#{item.resultado}" />
-                    </p:column>
-
-                    <p:column headerText="Usuario Valida" >
-                        <h:outputText value="#{item.usuarioValida}" />
-                    </p:column>
-
-                    <p:column headerText="Matrícula" >
-                        <h:outputText value="#{item.matriculaValida}" />
-                    </p:column>
-
-                    <p:column headerText="Fecha Validación">
-                        <h:outputText value="#{item.fechaValida}"   >
+                    <p:column headerText="Fecha Caducidad" width="120" style="text-align: center">
+                        <h:outputText value="#{item.fechaCaducidad}"  >
                             <f:convertDateTime pattern="dd-MM-yyyy" />
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="Clave">
-                        <h:outputText value="#{item.donadorPacienteId}" />
+                    <p:column headerText="Volumen">
+                        <h:outputText value="#{item.volumen} ml." />
                     </p:column>
-                    <p:tooltip value="Clave del donador o del paciente"/>
 
-                    <p:column headerText="Estatus">
-                        <h:outputText value="#{item.status eq '0'?'SOLICITADO': item.status eq '1'?'CON RESULTADO':'VALIDADO'}" />
+                    <p:column headerText="ID Donador">
+                        <h:outputText value="#{item.donadorId}" />
                     </p:column>
+
+                    <p:column headerText="Pediátrica" style="text-align: center" width="60">
+                        <h:panelGroup layout="block" rendered="#{item.pediatrica}">
+                            <i class="fas fa-check" style="font-size: 1rem;"></i>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{!item.pediatrica}">
+                            <i class="fas fa-times" style="font-size: 1rem;"></i>
+                        </h:panelGroup>
+                    </p:column>
+
+                    <p:column headerText="Pool" style="text-align: center" width="60">
+                        <h:panelGroup layout="block" rendered="#{item.pool}">
+                            <i class="fas fa-check" style="font-size: 1rem;"></i>
+                        </h:panelGroup>
+                        <h:panelGroup layout="block" rendered="#{!item.pool}">
+                            <i class="fas fa-times" style="font-size: 1rem;"></i>
+                        </h:panelGroup>
+                    </p:column>
+
+                    <p:column headerText="Grupo Sanguíneo" >
+                        <h:outputText value="#{item.gpoSang}" />
+                    </p:column>
+
                 </p:dataTable>
                 <p:toolbar >
                     <p:toolbarGroup align="left">
@@ -174,125 +114,27 @@
                 </p:toolbar>
             </div>
         </h:form>   
-        <!-- DIALOGO INSTITUCIÓN -->
-        <p:dialog header="Instituciones" widgetVar="institucionDlg" modal="true" showEffect="fade" hideEffect="fade" 
-                  resizable="false" responsive="true" draggable="false" width="600">
-            <h:form >
-                <p:dataTable id="tbItemsDiag"
-                             var="itemInst"
-                             value="#{ResultadosView.itemsInstituciones}"
-                             selectionMode="single"
-                             reflow="true"
-                             rowKey="#{itemInst.fncveinstitucion}"
-                             selection="#{ResultadosView.itemInstitucion}"
-                             paginator="true"
-                             rows="10"
-                             paginatorPosition="bottom"
-                             styleClass="tbItems"
-                             emptyMessage="NO HAY REGISTROS PARA MOSTRAR">
-
-                    <p:column class="text-center"
-                              filterMatchMode="contains" filterBy="#{itemInst.fcinstitucion}">
-                        <h:outputText value="#{itemInst.fcinstitucion}"/>
-                    </p:column>
-                    <f:facet name="footer">
-                        <div align="right" >                        
-                            <p:commandButton value="ACEPTAR"
-                                             action="#{ResultadosView.selectInstitucion()}"
-                                             icon="fa fa-fw fa-check"
-                                             update="growl :frmAlmacen:txtInst" 
-                                             oncomplete="PF('institucionDlg').hide()" 
-                                             ajax="false"
-                                             class="p-mr-2"/>
-                            <p:commandButton value="CERRAR"
-                                             icon="fa fa-fw fa-remove"
-                                             oncomplete="PF('institucionDlg').hide()" />
-                        </div>
-                    </f:facet>
-                </p:dataTable>  
-            </h:form> 
-        </p:dialog>
         <!-- DIALOGO IMPRESIÓN -->
         <p:dialog header="Imprimir Resultados" widgetVar="PrintDialog" modal="true" responsive="true" resizable="false" draggable="false" closable="false" width="300" height="auto" styleClass="print-dialog">            
             <h:form id="frmPrnt" >
                 <div class="ui-fluid p-formgrid p-grid"> 
                     <div class="p-field p-col-12">
-                        <p:outputLabel for="@next" value="Institución" />
-                        <div class="ui-inputgroup">
-                            <p:inputText id="instPrt"                                         
-                                         value="#{ResultadosView.rptInstitucionLabel}"
-                                         style="text-transform: uppercase;"
-                                         onclick="PF('institucionPrtDlg').show()"/>
-
-                            <p:commandButton id="btnInstitucion"
-                                             icon="fa fa-fw fa-search"
-                                             class="ui-search-pnl" 
-                                             process="@this"
-                                             oncomplete="PF('institucionPrtDlg').show()"
-                                             ajax="true" /> 
-                            <p:tooltip for="@previous" value="Buscar Institución" />
-                        </div>
-                    </div>
-                    <div class="p-field p-col-12">
-                        <p:outputLabel for="@next" value="Estatus" />
-                        <p:selectOneMenu value="#{ResultadosView.rptStatus}" autoWidth="false">
+                        <p:outputLabel for="@next" value="Componente" />
+                        <p:selectOneMenu value="#{AlmacenView.rptComponenteId}" autoWidth="false"
+                                         filter="true" filterMatchMode="contains"
+                                         required="true" requiredMessage="Es necesario seleccionar un componente">
                             <f:selectItem itemLabel="Seleccione uno..." itemValue="#{null}"/>
-                            <f:selectItem itemLabel="Solicitada" itemValue="#{0}"/>
-                            <f:selectItem itemLabel="Con Resultado" itemValue="#{1}"/>
-                            <f:selectItem itemLabel="Validado" itemValue="#{2}"/>
+                            <f:selectItems value="#{AlmacenView.itemsComp}" var="ic" itemLabel="#{ic.fraccion}" itemValue="#{ic.fraccionId}"/>
                         </p:selectOneMenu>
                     </div>
-                    <div class="p-field p-col-12">
-                        <p:outputLabel for="@next" value="Clave Donador / Paciente" />
-                        <p:inputNumber value="#{ResultadosView.rptIdPaciente}"  thousandSeparator="" decimalPlaces="0" minValue="0" />
-                    </div>
-
                 </div>
                 <br></br>
                 <div style="text-align: right">
-                    <p:commandButton action="#{ResultadosView.imprimirResultados()}"   icon="fas fa-print" onclick="form.target = '_blank';" value="Imprimir"
+                    <p:commandButton action="#{AlmacenView.imprimirAlmacen()}"   icon="fas fa-print" onclick="form.target = '_blank';" value="Imprimir"
                                      styleClass="ui-button-secondary p-mr-2"  ajax="false" />
                     <p:commandButton type="button" icon="fa-solid fa-times" value="Cerrar" onclick="PF('PrintDialog').hide()" />
                 </div>
             </h:form>
-        </p:dialog>
-        <!-- DIALOGO INSTITUCIÓN IMPRESIÓN -->
-        <p:dialog header="Instituciones" widgetVar="institucionPrtDlg" modal="true" showEffect="fade" hideEffect="fade" 
-                  resizable="false" responsive="true" draggable="false" width="600">
-            <h:form >
-                <p:dataTable id="tbItemsPrtDiag"
-                             var="itemI"
-                             value="#{ResultadosView.itemsInstituciones}"
-                             selectionMode="single"
-                             reflow="true"
-                             rowKey="#{itemI.fncveinstitucion}"
-                             selection="#{ResultadosView.itemInstitucion}"
-                             paginator="true"
-                             rows="10"
-                             paginatorPosition="bottom"
-                             styleClass="tbItems"
-                             emptyMessage="NO HAY REGISTROS PARA MOSTRAR">
-
-                    <p:column class="text-center"
-                              filterMatchMode="contains" filterBy="#{itemI.fcinstitucion}">
-                        <h:outputText value="#{itemI.fcinstitucion}"/>
-                    </p:column>
-                    <f:facet name="footer">
-                        <div align="right" >                        
-                            <p:commandButton value="ACEPTAR"
-                                             action="#{ResultadosView.selectPrtInstitucion()}"
-                                             icon="fa fa-fw fa-check"
-                                             update="growl :frmPrnt:instPrt" 
-                                             oncomplete="PF('institucionPrtDlg').hide()" 
-                                             ajax="true"
-                                             class="p-mr-2"/>
-                            <p:commandButton value="CERRAR"
-                                             icon="fa fa-fw fa-remove"
-                                             oncomplete="PF('institucionPrtDlg').hide()" />
-                        </div>
-                    </f:facet>
-                </p:dataTable>  
-            </h:form> 
         </p:dialog>
     </ui:define>
 
